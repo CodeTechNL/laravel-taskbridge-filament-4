@@ -1,0 +1,57 @@
+{
+    "name": "codetechnl/laravel-taskbridge-filament-4",
+    "description": "Filament v4 resource, widget, and actions for Laravel TaskBridge.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "CodeTechNL"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "codetechnl/laravel-taskbridge": "@dev",
+        "filament/filament": "^4.0"
+    },
+    "require-dev": {
+        "pestphp/pest": "^4.0",
+        "pestphp/pest-plugin-laravel": "^4.0",
+        "orchestra/testbench": "^10.0",
+        "laravel/pint": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "CodeTechNL\\TaskBridgeFilament\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "CodeTechNL\\TaskBridgeFilament\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "CodeTechNL\\TaskBridgeFilament\\TaskBridgeFilamentServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "test": "pest",
+        "format": "pint",
+        "format:check": "pint --test"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../laravel-taskbridge"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
