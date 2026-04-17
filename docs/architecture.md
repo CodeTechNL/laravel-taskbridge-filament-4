@@ -1,12 +1,12 @@
-# taskbridge-filament-3 — Architecture Reference
+# taskbridge-filament-4 — Architecture Reference
 
-This document describes the complete internal structure of the Filament 3 UI package for TaskBridge. Read alongside `packages/laravel-taskbridge/docs/architecture.md` for the full picture.
+This document describes the complete internal structure of the Filament 4 UI package for TaskBridge. Read alongside `packages/laravel-taskbridge/docs/architecture.md` for the full picture.
 
 ---
 
 ## Purpose
 
-Provides a full Filament 3 admin interface for `codetechnl/laravel-taskbridge` (`codetechnl/laravel-taskbridge-filament-3`). This includes a resource for managing scheduled jobs, a read-only run log, a stats widget, and table row actions for manual execution and sync.
+Provides a full Filament 4 admin interface for `codetechnl/laravel-taskbridge` (`codetechnl/laravel-taskbridge-filament-4`). This includes a resource for managing scheduled jobs, a read-only run log, a stats widget, and table row actions for manual execution and sync.
 
 ---
 
@@ -209,6 +209,6 @@ No routes are registered — all routing is handled by Filament's resource syste
 | Package | Role |
 |---------|------|
 | `codetechnl/laravel-taskbridge` | Core models, enums, actions, events |
-| `filament/filament` ^3.2 | Resource, Widget, Action, Notification base classes |
+| `filament/filament` ^4.0 | Resource, Widget, Action, Notification base classes |
 
-The Filament 3 package has no database migrations of its own — all tables are owned by `laravel-taskbridge`.
+The Filament 4 package has no database migrations of its own — all tables are owned by `laravel-taskbridge`.

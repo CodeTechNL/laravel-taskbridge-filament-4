@@ -1,8 +1,6 @@
-# taskbridge-filament-3
+# taskbridge-filament-4
 
-Filament v3 admin panel integration for [laravel-taskbridge](../laravel-taskbridge/README.md). Provides a complete UI for managing scheduled jobs, viewing run history, and triggering manual executions — all without touching AWS directly.
-
-> **Filament v4 support is coming soon.** This package targets Filament v3. A dedicated `codetechnl/laravel-taskbridge-filament-4` package is in development.
+Filament v4 admin panel integration for [laravel-taskbridge](../laravel-taskbridge/README.md). Provides a complete UI for managing scheduled jobs, viewing run history, and triggering manual executions — all without touching AWS directly.
 
 ## Features
 
@@ -21,13 +19,13 @@ Filament v3 admin panel integration for [laravel-taskbridge](../laravel-taskbrid
 
 - PHP 8.3+
 - Laravel 12 or 13
-- Filament 3.2+
+- Filament 4.x
 - `codetechnl/laravel-taskbridge` (installed and configured)
 
 ## Installation
 
 ```bash
-composer require codetechnl/laravel-taskbridge-filament-3
+composer require codetechnl/laravel-taskbridge-filament-4
 ```
 
 ## Register the plugin
@@ -158,7 +156,7 @@ TaskBridgePlugin::make()
 
 ### All available options
 
-> **Navigation nesting:** Filament v3 supports flat navigation only (Group → Items). There is no support for nested groups (e.g. System → Task Bridge → Items). Use a single group name.
+> **Navigation nesting:** Filament v4 supports flat navigation only (Group → Items). There is no support for nested groups (e.g. System → Task Bridge → Items). Use a single group name.
 
 | Method | Default | Description |
 |--------|---------|-------------|

@@ -1,4 +1,4 @@
-# AGENTS.md — taskbridge-filament-3
+# AGENTS.md — taskbridge-filament-4
 
 For full context on this package, read @README.md. For the core package rules, read @../laravel-taskbridge/AGENTS.md.
 
@@ -80,7 +80,7 @@ dispatch(new ($record->class));
 
 **The driver method is `getEventBridge()`, not `getDriver()`.**
 
-**No `BadgeColumn`.** Filament 3 uses `TextColumn->badge()` only.
+**No `BadgeColumn`.** Filament 4 uses `TextColumn->badge()` only.
 
 **One-time jobs are read-only in the table.** Run now, Dry run, and Edit row actions are hidden for one-time jobs (`$record->isOnce()`). The enabled toggle is also disabled for them. Never show `ScheduleOnceAction` as a row action — it was removed from the table entirely.
 
