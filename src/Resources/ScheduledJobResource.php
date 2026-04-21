@@ -86,8 +86,9 @@ class ScheduledJobResource extends Resource
 
     public static function form(Schema $schema): Schema
     {
-        return $schema->schema([
-            Grid::make(2)->schema([
+        return $schema
+            ->columns(1)
+            ->schema([
                 Section::make('Job class')
                     ->schema([
                         // CREATE: job picker modal (Livewire component) + hidden class field
@@ -188,72 +189,70 @@ class ScheduledJobResource extends Resource
                     ])
                     ->columns(2),
 
-            ]),
+                Grid::make(3)->schema([
+                    Section::make('Constructor Arguments')
+                        ->columnSpan(2)
+                        ->schema(function (Get $get) {
+                            $class = $get('class') ?? '';
 
-            Grid::make(3)->schema([
-                Section::make('Constructor Arguments')
-                    ->columnSpan(2)
-                    ->schema(function (Get $get) {
-                        $class = $get('class') ?? '';
+                            if (! filled($class)) {
+                                return [Forms\Components\Placeholder::make('_no_class')
+                                    ->label('')
+                                    ->content('No job has been selected.')
+                                    ->extraAttributes(['class' => 'text-sm text-gray-400 italic'])];
+                            }
 
-                        if (! filled($class)) {
-                            return [Forms\Components\Placeholder::make('_no_class')
-                                ->label('')
-                                ->content('No job has been selected.')
-                                ->extraAttributes(['class' => 'text-sm text-gray-400 italic'])];
-                        }
+                            $fields = JobFormBuilder::buildFields($class);
 
-                        $fields = JobFormBuilder::buildFields($class);
+                            if (empty($fields)) {
+                                return [Forms\Components\Placeholder::make('_no_args')
+                                    ->label('')
+                                    ->content("This job doesn't have any arguments.")
+                                    ->extraAttributes(['class' => 'text-sm text-gray-400 italic'])];
+                            }
 
-                        if (empty($fields)) {
-                            return [Forms\Components\Placeholder::make('_no_args')
-                                ->label('')
-                                ->content("This job doesn't have any arguments.")
-                                ->extraAttributes(['class' => 'text-sm text-gray-400 italic'])];
-                        }
+                            return $fields;
+                        })
+                        ->columns(2),
 
-                        return $fields;
-                    })
-                    ->columns(2),
+                    Section::make('Retry Policy')
+                        ->columnSpan(1)
+                        ->description('Leave blank to use the config defaults.')
+                        ->schema([
+                            Forms\Components\TextInput::make('retry_maximum_event_age_seconds')
+                                ->label('Max event age (seconds)')
+                                ->numeric()
+                                ->minValue(60)
+                                ->maxValue(86400)
+                                ->default(86400)
+                                ->placeholder('86400')
+                                ->helperText('Range: 60–86 400 (24 h).')
+                                ->rules([
+                                    fn () => function (string $attribute, mixed $value, \Closure $fail) {
+                                        if ($value !== null && ($value < 60 || $value > 86400)) {
+                                            $fail('Max event age must be between 60 and 86 400 seconds.');
+                                        }
+                                    },
+                                ]),
 
-                Section::make('Retry Policy')
-                    ->columnSpan(1)
-                    ->description('Leave blank to use the config defaults.')
-                    ->schema([
-                        Forms\Components\TextInput::make('retry_maximum_event_age_seconds')
-                            ->label('Max event age (seconds)')
-                            ->numeric()
-                            ->minValue(60)
-                            ->maxValue(86400)
-                            ->default(86400)
-                            ->placeholder('86400')
-                            ->helperText('Range: 60–86 400 (24 h).')
-                            ->rules([
-                                fn () => function (string $attribute, mixed $value, \Closure $fail) {
-                                    if ($value !== null && ($value < 60 || $value > 86400)) {
-                                        $fail('Max event age must be between 60 and 86 400 seconds.');
-                                    }
-                                },
-                            ]),
-
-                        Forms\Components\TextInput::make('retry_maximum_retry_attempts')
-                            ->label('Max retry attempts')
-                            ->numeric()
-                            ->minValue(0)
-                            ->maxValue(185)
-                            ->default(185)
-                            ->placeholder('185')
-                            ->helperText('Range: 0–185.')
-                            ->rules([
-                                fn () => function (string $attribute, mixed $value, \Closure $fail) {
-                                    if ($value !== null && ($value < 0 || $value > 185)) {
-                                        $fail('Max retry attempts must be between 0 and 185.');
-                                    }
-                                },
-                            ]),
-                    ]),
-            ]),
-        ]);
+                            Forms\Components\TextInput::make('retry_maximum_retry_attempts')
+                                ->label('Max retry attempts')
+                                ->numeric()
+                                ->minValue(0)
+                                ->maxValue(185)
+                                ->default(185)
+                                ->placeholder('185')
+                                ->helperText('Range: 0–185.')
+                                ->rules([
+                                    fn () => function (string $attribute, mixed $value, \Closure $fail) {
+                                        if ($value !== null && ($value < 0 || $value > 185)) {
+                                            $fail('Max retry attempts must be between 0 and 185.');
+                                        }
+                                    },
+                                ]),
+                        ]),
+                ]),
+            ]);
     }
 
     // ── Table ─────────────────────────────────────────────────────────────────
