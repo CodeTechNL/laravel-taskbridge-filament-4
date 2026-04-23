@@ -46,6 +46,41 @@ public function panel(Panel $panel): Panel
 
 That's it. The plugin automatically registers the **Scheduled Jobs** resource, the **Run Logs** resource, and the **TaskBridge stats widget**.
 
+## Custom theme (required)
+
+Filament v4 uses Tailwind v4, which only compiles utility classes from paths listed in `@source` directives. Filament's default bundled theme does **not** scan third-party plugin views, so without a custom theme the TaskBridge widget and some form/picker elements will render unstyled.
+
+### 1. Generate a Filament theme
+
+```bash
+php artisan make:filament-theme admin
+```
+
+This creates `resources/css/filament/admin/theme.css` and wires it into your Vite config and panel provider (`->viteTheme('resources/css/filament/admin/theme.css')`).
+
+### 2. Add the TaskBridge views to the theme
+
+Open `resources/css/filament/admin/theme.css` and add `@source` directives for this package's views and PHP files:
+
+```css
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+
+@source '../../../../app/Filament/**/*';
+@source '../../../../resources/views/filament/**/*';
+@source '../../../../vendor/codetechnl/laravel-taskbridge-filament-4/resources/views/**/*';
+@source '../../../../vendor/codetechnl/laravel-taskbridge-filament-4/src/**/*.php';
+```
+
+> The `src/**/*.php` line is needed because some Tailwind classes are authored as strings in PHP (e.g. `extraAttributes(['class' => ...])` inside resources and actions).
+
+### 3. Rebuild
+
+```bash
+npm run build
+```
+
+If you've changed `TASKBRIDGE_NAME_PREFIX`, moved the package to a different path, or installed under a Composer alias, adjust the `@source` paths accordingly — they are relative to the theme file.
+
 ## What you get
 
 ### Scheduled Jobs resource

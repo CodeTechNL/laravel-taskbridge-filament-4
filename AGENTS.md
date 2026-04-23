@@ -101,6 +101,10 @@ Toggle::make($fieldName)
 
 **Form layout: Constructor Arguments (span 2) + Retry Policy (span 1) in a Grid::make(3).** Always place these two sections together in this grid. Constructor Arguments comes first (left, 66%), Retry Policy comes second (right, 33%).
 
+**The top-level form schema must call `->columns(1)`.** Filament v4's `CreateRecord::defaultForm()` and `EditRecord::defaultForm()` auto-apply `columns(2)` unless the schema has custom columns. Without `->columns(1)` on the outer schema, the top-level sections (Job class, and the Constructor Arguments + Retry Policy grid) split side-by-side in a cramped two-column layout. Always set `$schema->columns(1)->schema([...])` in `ScheduledJobResource::form()`.
+
+**Custom theme is required for correct styling.** The package's widget and picker views use Tailwind classes that the default Filament bundled CSS does NOT include. Users must generate a custom Filament theme (`php artisan make:filament-theme {panel}`) and add `@source` directives pointing at `vendor/codetechnl/laravel-taskbridge-filament-4/resources/views/**/*` and `.../src/**/*.php`. This is documented in the README — keep it documented there if the required classes or paths change.
+
 **`buildClassOptions()` uses `ScheduledJob::recurring()` scope.** When checking for already-registered ("taken") classes, scope the query to recurring jobs only — one-time job rows must not mark a class as taken.
 
 **The `_status_dot` column is a `ColorColumn`.** It derives its color from `$record->last_status?->color() ?? 'gray'`. It has no label and a fixed width of `4px`. It is the leftmost column in the table.
